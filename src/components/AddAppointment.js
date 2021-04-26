@@ -2,7 +2,16 @@ import React, { useState } from 'react';
 import { BiCalendarPlus } from 'react-icons/bi';
 
 const AddAppointment = () => {
+  const clearData = {
+    ownerName: '',
+    petName: '',
+    aptDate: '',
+    aptTime: '',
+    aptNotes: '',
+  };
+
   const [toggleForm, setToggleForm] = useState(false);
+  const [formData, setFormData] = useState(clearData);
 
   const handleClick = () => {
     setToggleForm((prev) => !prev);
