@@ -57,13 +57,28 @@ function App() {
     setSortBy(mySort);
   };
 
+  const onSendAppointment = (myAppointment) => {
+    setAppointmentList((prev) => [...prev, myAppointment]);
+  };
+
+  const getLastId = () => {
+    const lastIdVal = appointmentList.reduce(
+      (max, item) => (Number(item.id) > max ? Number(item.id) : max),
+      0
+    );
+    return lastIdVal;
+  };
+
   return (
     <div className='container mx-auto mt-3 font-thin'>
       <h1 className='text-5xl mb-4'>
         <BiCalendar className='inline-block text-red-400 mb-2' />
         Your Appointments
       </h1>
-      <AddAppointment />
+      <AddAppointment
+        onSendAppointment={onSendAppointment}
+        lastId={getLastId()}
+      />
       <Search
         query={query}
         onQueryChange={onQueryChange}
