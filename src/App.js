@@ -8,6 +8,8 @@ import Appointment from './components/Appointment';
 function App() {
   const [appointmentList, setAppointmentList] = useState([]);
   const [query, setQuery] = useState('');
+  const [sortBy, setSortBy] = useState('petName');
+  const [orderBy, setOrderBy] = useState('asc');
 
   const fetchData = useCallback(async () => {
     const response = await fetch('./data.json');
@@ -32,13 +34,28 @@ function App() {
     setQuery(myQuery);
   };
 
-  const filteredAppointments = appointmentList.filter((appointment) => {
-    return (
-      appointment.petName.toLowerCase().includes(query.toLowerCase()) ||
-      appointment.ownerName.toLowerCase().includes(query.toLowerCase()) ||
-      appointment.aptNotes.toLowerCase().includes(query.toLowerCase())
-    );
-  });
+  const filteredAppointments = appointmentList
+    .filter((appointment) => {
+      return (
+        appointment.petName.toLowerCase().includes(query.toLowerCase()) ||
+        appointment.ownerName.toLowerCase().includes(query.toLowerCase()) ||
+        appointment.aptNotes.toLowerCase().includes(query.toLowerCase())
+      );
+    })
+    .sort((a, b) => {
+      let order = orderBy === 'asc' ? 1 : -1;
+      return a[sortBy].toLowerCase() < b[sortBy].toLowerCase()
+        ? -1 * order
+        : 1 * order;
+    });
+
+  const onOrderByChange = (mySort) => {
+    setOrderBy(mySort);
+  };
+
+  const onSortByChange = (mySort) => {
+    setSortBy(mySort);
+  };
 
   return (
     <div className='container mx-auto mt-3 font-thin'>
@@ -47,7 +64,14 @@ function App() {
         Your Appointments
       </h1>
       <AddAppointment />
-      <Search query={query} onQueryChange={onQueryChange} />
+      <Search
+        query={query}
+        onQueryChange={onQueryChange}
+        orderBy={orderBy}
+        onOrderByChange={onOrderByChange}
+        sortBy={sortBy}
+        onSortByChange={onSortByChange}
+      />
 
       <ul className='divide-y divide-gray-200'>
         {filteredAppointments.map((appointment) => (

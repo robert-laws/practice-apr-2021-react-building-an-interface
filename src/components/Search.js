@@ -2,7 +2,14 @@ import React, { useState } from 'react';
 import DropDown from './DropDown';
 import { BiSearch, BiCaretDown } from 'react-icons/bi';
 
-const Search = ({ query, onQueryChange }) => {
+const Search = ({
+  query,
+  onQueryChange,
+  orderBy,
+  onOrderByChange,
+  sortBy,
+  onSortByChange,
+}) => {
   const [toggleSort, setToggleSort] = useState(false);
 
   const handleClick = () => {
@@ -41,7 +48,13 @@ const Search = ({ query, onQueryChange }) => {
             >
               Sort By <BiCaretDown className='ml-2' />
             </button>
-            <DropDown toggle={toggleSort} />
+            <DropDown
+              toggle={toggleSort}
+              orderBy={orderBy}
+              onOrderByChange={onOrderByChange}
+              sortBy={sortBy}
+              onSortByChange={onSortByChange}
+            />
           </div>
         </div>
       </div>
