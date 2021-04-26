@@ -1,4 +1,5 @@
 import React from 'react';
+import DropDown from './DropDown';
 import { BiSearch, BiCaretDown } from 'react-icons/bi';
 
 const Search = () => {
@@ -28,6 +29,7 @@ const Search = () => {
             >
               Sort By <BiCaretDown className='ml-2' />
             </button>
+            <DropDown />
           </div>
         </div>
       </div>
