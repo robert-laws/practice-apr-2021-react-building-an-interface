@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import DropDown from './DropDown';
 import { BiSearch, BiCaretDown } from 'react-icons/bi';
 
-const Search = () => {
+const Search = ({ query, onQueryChange }) => {
   const [toggleSort, setToggleSort] = useState(false);
 
   const handleClick = () => {
     setToggleSort((prev) => !prev);
+  };
+
+  const handleChange = (event) => {
+    onQueryChange(event.target.value);
   };
 
   return (
@@ -20,7 +24,8 @@ const Search = () => {
           type='text'
           name='query'
           id='query'
-          value=''
+          value={query}
+          onChange={handleChange}
           className='pl-8 rounded-md focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300'
           placeholder='Search'
         />

@@ -7,6 +7,7 @@ import Appointment from './components/Appointment';
 
 function App() {
   const [appointmentList, setAppointmentList] = useState([]);
+  const [query, setQuery] = useState('');
 
   const fetchData = useCallback(async () => {
     const response = await fetch('./data.json');
@@ -27,6 +28,18 @@ function App() {
     );
   };
 
+  const onQueryChange = (myQuery) => {
+    setQuery(myQuery);
+  };
+
+  const filteredAppointments = appointmentList.filter((appointment) => {
+    return (
+      appointment.petName.toLowerCase().includes(query.toLowerCase()) ||
+      appointment.ownerName.toLowerCase().includes(query.toLowerCase()) ||
+      appointment.aptNotes.toLowerCase().includes(query.toLowerCase())
+    );
+  });
+
   return (
     <div className='container mx-auto mt-3 font-thin'>
       <h1 className='text-5xl mb-4'>
@@ -34,10 +47,10 @@ function App() {
         Your Appointments
       </h1>
       <AddAppointment />
-      <Search />
+      <Search query={query} onQueryChange={onQueryChange} />
 
       <ul className='divide-y divide-gray-200'>
-        {appointmentList.map((appointment) => (
+        {filteredAppointments.map((appointment) => (
           <Appointment
             key={appointment.id}
             appointment={appointment}
